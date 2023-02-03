@@ -12,6 +12,15 @@ export const createUser = async (input: Partial<User>) => {
     return omit(user.toJSON(), excludedFields);
 };
 
+export const findUserById = async (id: string) => {
+    const user = await userModel.findById(id).lean();
+    return omit(user, excludedFields);
+}
+
+export const findAllUsers = async () => {
+    return await userModel.find();
+}
+
 export const findUser = async (
     query: FilterQuery<User>,
     options: QueryOptions = {}
