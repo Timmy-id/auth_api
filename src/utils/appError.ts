@@ -1,4 +1,4 @@
-export default class AppEror extends Error {
+export default class AppError extends Error {
     status: string;
     isOperational: boolean;
     contructor: Function | undefined;
