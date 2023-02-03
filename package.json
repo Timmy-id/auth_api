@@ -5,6 +5,9 @@
   "main": "app.ts",
   "author": "Oluwatimilehin Idowu",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+  },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/config": "^3.3.0",
