@@ -60,15 +60,15 @@ export const loginHandler = async (
             return next(new AppError('Invalid email or password', 401));
         }
 
-        const { accessToken } = await signToken(user);
-        res.cookie('accessToken', accessToken, accessTokenCookieOptions);
+        const { access_token } = await signToken(user);
+        res.cookie('accessToken', access_token, accessTokenCookieOptions);
         res.cookie('logged_in', true, {
             ...accessTokenCookieOptions,
             httpOnly: false
         });
         res.status(200).json({
             status: 'success',
-            accessToken
+            access_token
         });
     } catch (err: any) {
         next(err);
