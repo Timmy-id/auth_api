@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import AppError from "../utils/appError";
 
 export const requireUser = (
-    req: Request, 
+    _: Request, 
     res: Response, 
     next: NextFunction
 ) => {
