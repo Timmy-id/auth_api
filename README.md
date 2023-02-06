@@ -1,36 +1,38 @@
 # Auth API
 ### Introduction
-Auth API is an API that allows user
+Auth API is an API that allow authenticated users to access their profile.
 ### Project Support Features
 * Users can signup and login to their accounts
-* Public (non-authenticated) users can access all causes on the platform
-* Authenticated users can access all causes as well as create a new cause, edit their created cause and also delete what they've created.
+* Users can see their account information
+* Only the admin can see all users
 ### Installation Guide
-* Clone this repository [here](https://github.com/blackdevelopa/ProjectSupport.git).
-* The develop branch is the most stable branch at any given time, ensure you're working from it.
-* Run npm install to install all dependencies
-* You can either work with the default mLab database or use your locally installed MongoDB. Do configure to your choice in the application entry file.
-* Create an .env file in your project root folder and add your variables. See .env.sample for assistance.
+* Clone this repository [here](https://github.com/Timmy-id/auth_api).
+* Run yarn to install all dependencies
+* You can either work with the default database or use your locally installed MongoDB. Do configure to your choice.
+* Create a .env file in your project root and add your variables as seen in the .env.example file.
 ### Usage
-* Run npm start:dev to start the application.
-* Connect to the API using Postman on port 7066.
+* Run docker-compose up -d to spin up your mongodb and redis database.
+* Run yarn start to start the application.
+* Connect to the API using Postman on port 8000.
 ### API Endpoints
 | HTTP Verbs | Endpoints | Action |
 | --- | --- | --- |
-| POST | /api/user/signup | To sign up a new user account |
-| POST | /api/user/login | To login an existing user account |
-| POST | /api/causes | To create a new cause |
-| GET | /api/causes | To retrieve all causes on the platform |
-| GET | /api/causes/:causeId | To retrieve details of a single cause |
-| PATCH | /api/causes/:causeId | To edit the details of a single cause |
-| DELETE | /api/causes/:causeId | To delete a single cause |
+| POST | /api/auth/register | To register a new user account |
+| POST | /api/auth/login | To login an existing user |
+| GET | /api/auth/logout | To logout the current user |
+| GET | /api/users/me | To get the profile of the current user |
+| GET | /api/users | To retrieve all users (only role admin can do this) |
+
+* To get the admin role, create a new user and change the role from your database to admin. 
 ### Technologies Used
-* [NodeJS](https://nodejs.org/) This is a cross-platform runtime environment built on Chrome's V8 JavaScript engine used in running JavaScript codes on the server. It allows for installation and managing of dependencies and communication with databases.
-* [ExpressJS](https://www.expresjs.org/) This is a NodeJS web application framework.
-* [MongoDB](https://www.mongodb.com/) This is a free open source NOSQL document database with scalability and flexibility. Data are stored in flexible JSON-like documents.
-* [Mongoose ODM](https://mongoosejs.com/) This makes it easy to write MongoDB validation by providing a straight-forward, schema-based solution to model to application data.
+* [NodeJS](https://nodejs.org/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [ExpressJS](https://www.expresjs.org/)
+* [MongoDB](https://www.mongodb.com/)
+* [Typegoose](https://typegoose.github.io/typegoose/)
+* [redis](https://redis.io/)
+* [docker](https://www.docker.com/)
 ### Authors
-* [Black Developa](https://github.com/blackdevelopa)
-* ![alt text](https://avatars0.githubusercontent.com/u/29962968?s=400&u=7753a408ed02e51f88a13a5d11014484bc4d80ee&v=4)
+* [Oluwatimilehin Idowu](https://github.com/Timmy-id)
 ### License
 This project is available for use under the MIT License.
