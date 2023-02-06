@@ -12,6 +12,7 @@ router.use(deserializeUser, requireUser);
 
 // Only the admin can get all users
 router.get('/', restrictTo('admin'), getAllUsersHandler);
+// Get current logged in user info
 router.get('/me', getMeHandler);
 
 export default router;
