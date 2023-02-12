@@ -15,7 +15,8 @@ const accessTokenCookieOptions: CookieOptions = {
     ),
     maxAge: config.get<number>('accessTokenExpiresIn') * 60 * 1000,
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'none',
+    secure: true
 };
 
 const refreshTokenCookieOptions: CookieOptions = {
@@ -24,7 +25,7 @@ const refreshTokenCookieOptions: CookieOptions = {
     ),
     maxAge: config.get<number>('refreshTokenExpiresIn') * 60 * 1000,
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'none',
 };
 
 // Only set secure to true in production environment
