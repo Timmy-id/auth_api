@@ -26,6 +26,7 @@ const refreshTokenCookieOptions: CookieOptions = {
     maxAge: config.get<number>('refreshTokenExpiresIn') * 60 * 1000,
     httpOnly: true,
     sameSite: 'none',
+    secure: true
 };
 
 // Only set secure to true in production environment

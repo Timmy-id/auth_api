@@ -20,7 +20,7 @@ export const getMeHandler = (
 };
 
 export const getAllUsersHandler = async (
-    req: Request,
+    _: Request,
     res: Response,
     next: NextFunction
 ) => {

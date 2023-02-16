@@ -1,17 +1,25 @@
 require('dotenv').config();
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import config from 'config';
+import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import connectDB from './utils/connectDB';
 import userRouter from './api/user/user.route';
 import authRouter from './api/auth/auth.route';
+import * as swaggerDocument from './swagger.json'
 
-const app = express();
+const app: Application = express();
 
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
+
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument)
+)
 
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(cors(
