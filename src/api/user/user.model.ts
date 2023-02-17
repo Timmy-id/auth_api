@@ -21,7 +21,7 @@ import bcrypt from 'bcryptjs';
 })
 
 export class User {
-    @prop()
+    @prop({ required: true })
     name: string;
 
     @prop({ unique: true, required: true })

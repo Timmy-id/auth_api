@@ -14,6 +14,7 @@ Auth API is an API that allow authenticated users to access their profile.
 * Run docker-compose up -d to spin up your mongodb and redis database.
 * Run yarn start to start the application.
 * Connect to the API using Postman on port 8000.
+* The API documentation is at `/api-docs`
 ### API Endpoints
 | HTTP Verbs | Endpoints | Action |
 | --- | --- | --- |

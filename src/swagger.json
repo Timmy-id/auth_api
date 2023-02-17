@@ -2,10 +2,187 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Auth API Documentation",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "contact": {
+            "name": "Oluwatimilehin Idowu",
+            "email": "oluwatimilehin.id@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "externalDocs": {
+            "description": "Find out more",
+            "url": "https://github.com/Timmy-id/auth_api"
+        }
     },
     "schemes": ["http"],
     "servers":[{ "url": "http://localhost:8000/api"}],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Create a new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref":"#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Email already exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref":"#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Log in a registered user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid username or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": ["user"],
+                "summary": "Get all users (By admin only)",
+                "responses": {
+                    "200": {
+                        "description": "Successfully returned a list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AllUsersResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/me": {
+            "get": {
+                "tags": ["user"],
+                "summary": "Get the user profile information",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User profile information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     "components": {
         "securitySchemes": {
             "bearerAuth": {
@@ -13,18 +190,39 @@
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
-        }
-    },
-    "paths": {
-        "/auth/register": {
-            "post": {
-                "tags": ["Auth Endpoints"],
-                "summary": "Register a user",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
+        },
+        "schemas": {
+            "User": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the of a user"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email address of the user"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "The password of the user"
+                    },
+                    "passwordConfirm": {
+                        "type": "string",
+                        "description": "This must be the same as the password"
+                    }
+                }
+            },
+            "UserResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "user": {
                                 "type": "object",
                                 "properties": {
                                     "name": {
@@ -33,34 +231,65 @@
                                     "email": {
                                         "type": "string"
                                     },
-                                    "password": {
+                                    "role": {
                                         "type": "string"
                                     },
-                                    "passwordConfirm": {
+                                    "_id": {
                                         "type": "string"
+                                    },
+                                    "createdAt": {
+                                        "type": "string"
+                                    },
+                                    "updatedAt": {
+                                        "type": "string"
+                                    },
+                                    "__v": {
+                                        "type": "number"
                                     }
                                 }
                             }
                         }
                     }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created successfully"
+                }
+            },
+            "AllUsersResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "type": "number"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/UserResponse/properties/data"
+                    }
+                }
+            },
+            "LoginBody": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "The email address of the user"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "The password of the user"
+                    }
+                }
+
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
                     }
                 }
             }
-        },
-        "/users/me": {
-            "get": {
-                "security": {
-                    "bearerAuth": []
-                }
-            }
         }
-    },
-    "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
-  }
+    }
 }
