@@ -17,7 +17,7 @@
         }
     },
     "schemes": ["http"],
-    "servers":[{ "url": "http://localhost:8000/api"}],
+    "servers":[{ "url": "https://auth-api-ryjj.onrender.com/api" }],
     "paths": {
         "/auth/register": {
             "post": {
